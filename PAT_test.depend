@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1553511198 source:e:\programming_project\pat_test\pat_test\main.cpp
+	<iostream>
+	<stdio.h>
+	<vector>
+	"myHeaders.h"
+
+1553512351 source:e:\programming_project\pat_test\pat_test\mysources.cpp
+	"myHeaders.h"
+	<vector>
+	<stdio.h>
+	<algorithm>
+
+1553512143 e:\programming_project\pat_test\pat_test\myheaders.h
+	"myHeaders.h"
+	<vector>
+	<stdio.h>
+
