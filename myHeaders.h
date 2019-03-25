@@ -17,7 +17,7 @@ struct personTalentAndVirtue{
        unsigned char virtue;
        unsigned char totalScores;
        personTalentAndVirtueType type;
-       personTalentAndVirtue():ID(0),totalScores(0),type(personTalentAndVirtueType::smallMan),virtue(0),talent(0){};
+       personTalentAndVirtue():ID(0),talent(0),virtue(0),totalScores(0),type(personTalentAndVirtueType::smallMan){};
 };
 union personTalentAndVirtueData{
     unsigned long long personLL;

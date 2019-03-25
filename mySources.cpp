@@ -17,14 +17,14 @@ personTalentAndVirtue producePersonTalentAndVirtue(int v,int t,int id,int L,int 
             personTalentAndVirtue now;
                if(v>=H&&t>=H){
                      now.type=personTalentAndVirtueType::sage;
-               }else if(v>=H&&(t<H&&t>=L)){
+               }else if(v<L||t<L){
+                    now.type=personTalentAndVirtueType::smallMan;
+               }else if(v>=H&&t<H){
                       now.type=personTalentAndVirtueType::nobleMan;
-               }else if((v>=L)&&(t>=L)&&(v>=t)){
+               }else if((v<H)&&(t<H)&&(v>=t)){
                       now.type=personTalentAndVirtueType::foolMan_v1;
-               }else if((v>=L)&&(t>=L)&&(v<t)){
-                      now.type=personTalentAndVirtueType::foolMan_v2;
                }else{
-                     now.type=personTalentAndVirtueType::smallMan;
+                      now.type=personTalentAndVirtueType::foolMan_v2;
                }
                now.totalScores=v+t;now.ID=id;now.virtue=v;now.talent=t;
                return now;
@@ -33,7 +33,11 @@ bool compare_vI(const personTalentAndVirtueData&a,const personTalentAndVirtueDat
     return a.personLL>b.personLL;
 }
 bool compare_v2(const personTalentAndVirtueData&a,const personTalentAndVirtueData&b){
-    return a.personLL>b.personLL;
+    if((int)a.personData.type>(int)b.personData.type)return true;
+     if(a.personData.totalScores>b.personData.totalScores)return true;
+      if(a.personData.virtue>b.personData.virtue)return true;
+        if(a.personData.ID<b.personData.ID)return true;
+        return false;
 }
 void rankByTalentAndVirtue(FILE * pFile,int n,int L,int H,vector<personTalentAndVirtueData>&ans){
          for(int i=0;i<n;i++){
@@ -47,5 +51,5 @@ void rankByTalentAndVirtue(FILE * pFile,int n,int L,int H,vector<personTalentAnd
             }
             //printf("%d %d %d\n",id,v,t);
          }
-         sort(ans.begin(),ans.end(),compare_vI);
+         sort(ans.begin(),ans.end(),compare_v2);
 }

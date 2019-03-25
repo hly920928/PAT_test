@@ -1,17 +1,15 @@
 # depslib dependency file v1.0
-1553511198 source:e:\programming_project\pat_test\pat_test\main.cpp
-	<iostream>
+1553519156 source:e:\programming_project\pat_test\pat_test\main.cpp
 	<stdio.h>
-	<vector>
-	"myHeaders.h"
+	<algorithm>
 
-1553512351 source:e:\programming_project\pat_test\pat_test\mysources.cpp
+1553516875 source:e:\programming_project\pat_test\pat_test\mysources.cpp
 	"myHeaders.h"
 	<vector>
 	<stdio.h>
 	<algorithm>
 
-1553512143 e:\programming_project\pat_test\pat_test\myheaders.h
+1553515661 e:\programming_project\pat_test\pat_test\myheaders.h
 	"myHeaders.h"
 	<vector>
 	<stdio.h>
