@@ -1,49 +1,52 @@
 #include <stdio.h>
-#include<algorithm>
+#include <vector>
+#include <iostream>
+#include <fstream>
 #include <string>
+#include <unordered_map>
 using namespace std;
-void toStr(char* str,int i){
-    str[4]='\0';
-     str[3]=i%10+'0';i/=10;
-     str[2]=i%10+'0';i/=10;
-      str[1]=i%10+'0';i/=10;
-      str[0]=i%10+'0';
+void CourseListforStudentSolver(istream& in) {
+	int N = 0; int K = 0;
+	in >> N >>K;
+	unordered_map<string, vector<bool>>table;
+	for (int id = 0;id <K; id++) {
+		int i = 0; int Ni = 0;
+		in >>i >> Ni;
+		for (int sid = 0; sid < Ni; sid++) {
+			string studID;
+			in >> studID;
+			if (table.find(studID) == table.end()) {
+				table[studID] = vector<bool>();
+				table[studID].resize(K+1);
+				auto&now = table[studID];
+				for (int kid = 0; kid <= K; kid++) now[kid] = false;
+			}
+			table[studID][i] = true;
+		}
+	}
+	for (int sid = 0; sid < N; sid++) {
+		string studID;
+		in >> studID;
+		if (table.find(studID) == table.end()) {
+			//out << studID << " " << 0<< endl;
+			printf("%s 0\n", studID.data());
+			continue;
+		}
+		auto&now = table[studID];
+		int numK = 0;
+		string str="";
+		for (int i = 1; i <= K; i++) {
+			if (now[i]) { str = str + " "+to_string(i); numK++; }
+		}
+		//out << studID<<" "<< numK<< str<<endl;
+		printf("%s %d %s\n", studID.data(), numK, str.data());
+	}
 }
-int toInt(char* str){
-    int ans=0;
-    ans=(str[0]-'0')*1000+(str[1]-'0')*100+(str[2]-'0')*10+(str[3]-'0');
-    return ans;
-}
-
 int main()
 {
-    int n=0;
-    scanf("%d",&n);
-    char a[5];
-    char b[5];
-    char d[5];
-    toStr(b,n);
-    sort(b,b+4);
-    copy(b,b+4,a);
-    reverse(a,a+4);
-    int diff=toInt(a)-toInt(b);
 
-    if(diff==0){
-        printf("%s - %s = 0000\0",a,b);
-        return 0;
-    }
-     toStr(d,diff);
-     int t=0;
-    while(diff!=6174&&t<10){
-        printf("%s - %s = %s\n",a,b,d);
-      toStr(b,diff);
-      sort(b,b+4);
-      copy(b,b+4,a);
-       reverse(a,a+4);
-       diff=toInt(a)-toInt(b);
-       toStr(d,diff);
-       t++;
-    }
-     printf("%s - %s = 6174\n",a,b);
+	//fstream in;
+	//in.open("./InputData/A1039.txt");
+	CourseListforStudentSolver(cin);
     return 0;
 }
