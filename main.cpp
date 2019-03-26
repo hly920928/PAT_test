@@ -1,52 +1,69 @@
 #include <stdio.h>
+#include <algorithm>
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <unordered_map>
+#include <queue>
+#include <functional>
 using namespace std;
-void CourseListforStudentSolver(istream& in) {
-	int N = 0; int K = 0;
-	in >> N >>K;
-	unordered_map<string, vector<bool>>table;
-	for (int id = 0;id <K; id++) {
-		int i = 0; int Ni = 0;
-		in >>i >> Ni;
-		for (int sid = 0; sid < Ni; sid++) {
-			string studID;
-			in >> studID;
-			if (table.find(studID) == table.end()) {
-				table[studID] = vector<bool>();
-				table[studID].resize(K+1);
-				auto&now = table[studID];
-				for (int kid = 0; kid <= K; kid++) now[kid] = false;
+
+void  miceAndRice_A1056(istream& in){
+	int numMice = 0; int sizeOfGroup = 0;
+	in >> numMice >> sizeOfGroup;
+	vector<int>weight; weight.resize(numMice);
+	for (int i = 0; i < numMice; i++) {
+		int nowW = 0; in >> nowW; weight[i]=nowW;
+	}
+	queue<int>miceID;
+	for (int i = 0; i < numMice; i++) {
+		int nowID = 0; in >> nowID; miceID.push(nowID);
+	}
+	vector<int>ans; ans.resize(numMice);
+	auto cmp_II = [&](int a, int b) -> bool{
+		return weight[a] < weight[b];
+	};
+	while (miceID.size() != 1) {
+		int size = miceID.size();
+		int turn = size / sizeOfGroup; int lastGroupSize = size % sizeOfGroup;
+		int remain = turn; if (lastGroupSize != 0)remain++;
+		vector < int >  temp; temp.resize(sizeOfGroup);
+		for (int i = 0; i < turn; i++) {
+			for (int j= 0; j< sizeOfGroup; j++) {
+				temp[j] = miceID.front(); miceID.pop();
 			}
-			table[studID][i] = true;
+			auto itr = max_element(temp.begin(), temp.end(), cmp_II);
+			for (int id : temp) {
+				if (id == *itr) {
+					miceID.push(id);
+				}else {
+					ans[id] = remain + 1;
+				}
+			}
+		}
+		if (lastGroupSize != 0) {
+			temp.resize(lastGroupSize);
+			for (int j = 0; j < lastGroupSize; j++) {
+				temp[j] = miceID.front(); miceID.pop();
+			}
+			auto itr = max_element(temp.begin(), temp.end(), cmp_II);
+			for (int id : temp) {
+				if (id == *itr) {
+					miceID.push(id);
+				}else {
+					ans[id] = remain + 1;
+				}
+			}
 		}
 	}
-	for (int sid = 0; sid < N; sid++) {
-		string studID;
-		in >> studID;
-		if (table.find(studID) == table.end()) {
-			//out << studID << " " << 0<< endl;
-			printf("%s 0\n", studID.data());
-			continue;
-		}
-		auto&now = table[studID];
-		int numK = 0;
-		string str="";
-		for (int i = 1; i <= K; i++) {
-			if (now[i]) { str = str + " "+to_string(i); numK++; }
-		}
-		//out << studID<<" "<< numK<< str<<endl;
-		printf("%s %d %s\n", studID.data(), numK, str.data());
-	}
+	ans[miceID.front()] = 1;
+	for (int i = 0; i < numMice - 1; i++) printf("%d ", ans[i]);
+	printf("%d\n", ans[numMice-1]);
 }
 int main()
 {
 
 	//fstream in;
-	//in.open("./InputData/A1039.txt");
-	CourseListforStudentSolver(cin);
+	//in.open("./InputData/A1056_Mice_and_Rice.txt");
+	miceAndRice_A1056(cin);
     return 0;
 }
